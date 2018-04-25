@@ -1,3 +1,6 @@
 [submodule "proxy/vendor/athlon1600/php-proxy-plugin-bundle"]
 	path = proxy/vendor/athlon1600/php-proxy-plugin-bundle
 	url = https://github.com/athlon1600/php-proxy-plugin-bundle
+[submodule "spotify-get"]
+	path = spotify-get
+	url = https://github.com/geraskalnas/spotify-get
