@@ -4,3 +4,6 @@
 [submodule "spotify-get"]
 	path = spotify-get
 	url = https://github.com/geraskalnas/spotify-get
+[submodule "youtubeC/php-ref"]
+	path = youtubeC/php-ref
+	url = https://github.com/digitalnature/php-ref.git
