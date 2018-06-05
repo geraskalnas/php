@@ -58,12 +58,45 @@ body {font-family: Arial, Helvetica, sans-serif;}
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-    <button id="btn2">asd</button>
+    <p id="content">Some text in the Modal..</p>
+    <button id="button1">1</button>
+    <button id="button2">2</button>
   </div>
 
 </div>
+<script>
+var getJSON = function(url, successHandler, errorHandler) {
+    var xhr = new XMLHttpRequest();
+	xhr.open('get', url, true);
+	xhr.responseType = 'json';
+	xhr.onload = function() {
+		var status = xhr.status;
+		if (status == 200) {
+			successHandler && successHandler(xhr.response);
+		} else {
+			errorHandler && errorHandler(status);
+		}
+	};
+	xhr.send();
+};
+function des(data){
+	var b1=document.getElementById("button1");
+	var b=document.getElementById("button2");
+	document.getElementById("content").innerHTML=data.content;
+	b1.innerHTML="asd";
+	b1.onclick=function(){alert();}
+	b2.innerHTML="fgj";
+	b2.onclick=function(){alert(data.buttons.fgj.data);}
+}
 
+function updater(){
+getJSON('dat.json', function(data) {
+		des(data);
+	}, function(status) {
+		alert('Something went wrong. Status: '+ status);
+	});
+}
+</script>
 <script>
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -74,14 +107,9 @@ var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-var btn2 = document.getElementById("btn2");
-
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
-}
-btn2.onclick = function() {
-    alert("dfgdf");
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -95,6 +123,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+updater();
 </script>
 
 </body>
