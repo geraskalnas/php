@@ -1,1 +1,1 @@
-{"content": "<b>Nothing that can interest you</b>","buttons": {"asd": {"action": "report"},"fgj": {"action": "alert", "data": "Your name is bla"}}}
+{"content": "<b>Nothing that can interest you</b>","buttons": [{"name": "fdhhdfd", "id": "1", "action": "report", "data": "yt"}, {"name": "fdgs", "id":"2", "action": "alert", "data": "dsf"}]}

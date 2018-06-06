@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,24 +46,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 </head>
 <body>
+<button id="myBtn" >Open Modal</button>
 
-<h2>Modal Example</h2>
-
-<!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
-
-<!-- The Modal -->
 <div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="content">Some text in the Modal..</p>
-    <button id="button1">1</button>
-    <button id="button2">2</button>
-  </div>
-
+<div class="modal-content" id="modal-content"></div>
 </div>
+
 <script>
 var getJSON = function(url, successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
@@ -79,17 +67,46 @@ var getJSON = function(url, successHandler, errorHandler) {
 	};
 	xhr.send();
 };
-function des(data){
-	var b1=document.getElementById("button1");
-	var b=document.getElementById("button2");
-	document.getElementById("content").innerHTML=data.content;
-	b1.innerHTML="asd";
-	b1.onclick=function(){alert();}
-	b2.innerHTML="fgj";
-	b2.onclick=function(){alert(data.buttons.fgj.data);}
-}
+function appendButton(text, id, data, onclick) {
+	var modalContent=document.getElementById("modal-content");
+    var btn = document.createElement("button");
+    var t = document.createTextNode(text);
+    btn.appendChild(t);
+    var att=document.createAttribute("id");
+    att.value=id;
+    btn.setAttributeNode(att);
+    var att=document.createAttribute("data-d");
+    att.value=data;
+    btn.setAttributeNode(att);
+    btn.onclick=onclick;
+    modalContent.appendChild(btn);
+}function appendP(text) {
+	var modalContent=document.getElementById("modal-content");
+    var p = document.createElement("p");
+    var t = document.createTextNode(text);
+    p.appendChild(t);
+    modalContent.appendChild(p);
+}function appendSpan(text, cclass, onclick) {
+	var modalContent=document.getElementById("modal-content");
+    var span = document.createElement("span");
+    var t = document.createTextNode(text);
+    var att=document.createAttribute("class");
+    att.value=cclass;
+    span.appendChild(t);
+    span.setAttributeNode(att);
+    span.onclick=onclick;
+    modalContent.appendChild(span);
+}function des(data){
+	var modalContent=document.getElementById("modal-content"), i, n;
+	modalContent.innerHTML="";
+	appendSpan("×", "close", function() {modal.style.display="none";});//&times;
+	appendP(data.content);
+	for(n in data.buttons){
+		i=data.buttons[n]
+		appendButton(i.name, i.id, i.data, function(){alert(document.activeElement.getAttribute("data-d"));});
+	}
 
-function updater(){
+}function updater(){
 getJSON('dat.json', function(data) {
 		des(data);
 	}, function(status) {
@@ -98,32 +115,19 @@ getJSON('dat.json', function(data) {
 }
 </script>
 <script>
-// Get the modal
 var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
 var btn = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
 btn.onclick = function() {
+	updater();
     modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
-updater();
 </script>
 
 </body>
