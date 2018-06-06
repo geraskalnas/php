@@ -53,6 +53,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </div>
 
 <script>
+/*eslint-disable eqeqeq */
 var getJSON = function(url, successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
 	xhr.open('get', url, true);
@@ -67,47 +68,37 @@ var getJSON = function(url, successHandler, errorHandler) {
 	};
 	xhr.send();
 };
-function appendButton(text, id, data, onclick) {
-	var modalContent=document.getElementById("modal-content");
-    var btn = document.createElement("button");
-    var t = document.createTextNode(text);
-    btn.appendChild(t);
-    var att=document.createAttribute("id");
-    att.value=id;
-    btn.setAttributeNode(att);
-    var att=document.createAttribute("data-d");
-    att.value=data;
-    btn.setAttributeNode(att);
-    btn.onclick=onclick;
-    modalContent.appendChild(btn);
-}function appendP(text) {
-	var modalContent=document.getElementById("modal-content");
-    var p = document.createElement("p");
-    var t = document.createTextNode(text);
-    p.appendChild(t);
-    modalContent.appendChild(p);
-}function appendSpan(text, cclass, onclick) {
-	var modalContent=document.getElementById("modal-content");
-    var span = document.createElement("span");
-    var t = document.createTextNode(text);
-    var att=document.createAttribute("class");
-    att.value=cclass;
-    span.appendChild(t);
-    span.setAttributeNode(att);
-    span.onclick=onclick;
-    modalContent.appendChild(span);
+function appendElement(element, parent, content, attributes, attributesV, onclick){
+	var elem = document.createElement(element);
+	var cont = document.createTextNode(content);
+	var attr, i;
+	elem.appendChild(cont);
+	
+	if(attributes!="" && attributesV!=""){
+		for(i=0; i<=attributes.length;i++){
+			attr = document.createAttribute(attributes[i]);
+			attr.value=attributesV[i];
+			elem.setAttributeNode(attr);
+		}
+}
+
+	if (onclick!=""){
+		elem.onclick=onclick;
+	}
+	parent.appendChild(elem);
 }function des(data){
 	var modalContent=document.getElementById("modal-content"), i, n;
 	modalContent.innerHTML="";
-	appendSpan("×", "close", function() {modal.style.display="none";});//&times;
-	appendP(data.content);
+	appendElement("span", modalContent, "×", ["class"], ["closep
+	git add "], function() {modal.style.display="none";});//&times;
+	appendElement("p", modalContent, data.content, [""], [""], "");
 	for(n in data.buttons){
 		i=data.buttons[n]
-		appendButton(i.name, i.id, i.data, function(){alert(document.activeElement.getAttribute("data-d"));});
+		appendElement("button", modalContent, i.name, ["name", "id", "data-d"], [i.name, i.id, i.data], function(){alert(document.activeElement.getAttribute("data-d"));});
 	}
 
 }function updater(){
-getJSON('dat.json', function(data) {
+getJSON('call.php', function(data) {
 		des(data);
 	}, function(status) {
 		alert('Something went wrong. Status: '+ status);

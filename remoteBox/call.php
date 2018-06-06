@@ -1,4 +1,4 @@
 <?php
-$output='{"content": "dsjkgfdshagk","buttons": {"asd": {"action": "report"},"fgj": {"action": "alert", "val:"Your name is bla bla bla"}}}';
+$output='{"content": "Nothing that can interest you","buttons": [{"name": "fdhhdfd", "id": "1", "action": "report", "data": "yt"}, {"name": "fdgs", "id":"2", "action": "alert", "data": "dsf"}]}';
 echo $output;
 ?>
