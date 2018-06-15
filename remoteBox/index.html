@@ -54,6 +54,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 <script>
 /*eslint-disable eqeqeq */
+var modal = document.getElementById('myModal');
+var btn = document.getElementById("myBtn");
+
+btn.onclick = function() {
+	updater();
+    modal.style.display = "block";
+};
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+/*eslint-disable eqeqeq */
 var getJSON = function(url, successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
 	xhr.open('get', url, true);
@@ -67,8 +81,9 @@ var getJSON = function(url, successHandler, errorHandler) {
 		}
 	};
 	xhr.send();
-};
-function appendElement(element, parent, content, attributes, attributesV, onclick){
+};function report(id){
+	updater("call.php?button="+id);
+}function appendElement(element, parent, content, attributes, attributesV, onclick){
 	var elem = document.createElement(element);
 	var cont = document.createTextNode(content);
 	var attr, i;
@@ -86,38 +101,25 @@ function appendElement(element, parent, content, attributes, attributesV, onclic
 		elem.onclick=onclick;
 	}
 	parent.appendChild(elem);
+}function genFunc(command){
+	if(command=="alert"){return function(){alert(document.activeElement.getAttribute("data-d"));};}
+	else if(command=="report"){return function(){report(document.activeElement.getAttribute("id"));};}
 }function des(data){
 	var modalContent=document.getElementById("modal-content"), i, n;
 	modalContent.innerHTML="";
-	appendElement("span", modalContent, "×", ["class"], ["closep
-	git add "], function() {modal.style.display="none";});//&times;
+	appendElement("span", modalContent, "×", ["class"], ["closep"], function() {modal.style.display="none";});//&times;
 	appendElement("p", modalContent, data.content, [""], [""], "");
 	for(n in data.buttons){
-		i=data.buttons[n]
-		appendElement("button", modalContent, i.name, ["name", "id", "data-d"], [i.name, i.id, i.data], function(){alert(document.activeElement.getAttribute("data-d"));});
+		i=data.buttons[n];
+		appendElement("button", modalContent, i.name, ["name", "id", "data-d"], [i.name, i.id, i.data], genFunc(i.action));
 	}
 
-}function updater(){
-getJSON('call.php', function(data) {
+}function updater(url="call.php"){
+getJSON(url, function(data) {
 		des(data);
 	}, function(status) {
 		alert('Something went wrong. Status: '+ status);
 	});
-}
-</script>
-<script>
-var modal = document.getElementById('myModal');
-var btn = document.getElementById("myBtn");
-
-btn.onclick = function() {
-	updater();
-    modal.style.display = "block";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
 }
 </script>
 
