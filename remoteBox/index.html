@@ -81,8 +81,8 @@ var getJSON = function(url, successHandler, errorHandler) {
 		}
 	};
 	xhr.send();
-};function report(id){
-	updater("call.php?button="+id);
+};function report(id, way){
+	updater("call.php?way="+JSON.stringify(way)+"&button="+id);
 }function appendElement(element, parent, content, attributes, attributesV, onclick){
 	var elem = document.createElement(element);
 	var cont = document.createTextNode(content);
@@ -101,17 +101,18 @@ var getJSON = function(url, successHandler, errorHandler) {
 		elem.onclick=onclick;
 	}
 	parent.appendChild(elem);
-}function genFunc(command){
+}function genFunc(command, way){
 	if(command=="alert"){return function(){alert(document.activeElement.getAttribute("data-d"));};}
-	else if(command=="report"){return function(){report(document.activeElement.getAttribute("id"));};}
+	else if(command=="report"){return function(){report(document.activeElement.getAttribute("id"), way);};}
 }function des(data){
 	var modalContent=document.getElementById("modal-content"), i, n;
 	modalContent.innerHTML="";
 	appendElement("span", modalContent, "×", ["class"], ["closep"], function() {modal.style.display="none";});//&times;
-	appendElement("p", modalContent, data.content, [""], [""], "");
+	appendElement("p", modalContent, data.content, "", "", "");
 	for(n in data.buttons){
 		i=data.buttons[n];
-		appendElement("button", modalContent, i.name, ["name", "id", "data-d"], [i.name, i.id, i.data], genFunc(i.action));
+		appendElement("button", modalContent, i.name, ["name", "id", "data-d"], [i.name, i.id, i.data], genFunc(i.action, data.way));
+		alert(data.way);
 	}
 
 }function updater(url="call.php"){
